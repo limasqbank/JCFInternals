@@ -1,5 +1,7 @@
 # PriorityQueue
 
+![PriorityQueue_UML.png](../PNGFigures/PriorityQueue_UML.png)
+
 # 总体介绍
 
 前面以Java *ArrayDeque*为例讲解了*Stack*和*Queue*，其实还有一种特殊的队列叫做*PriorityQueue*，即优先队列。**优先队列的作用是能保证每次取出的元素都是队列中权值最小的**（Java的优先队列每次取最小元素，C\++的优先队列每次取最大元素）。这里牵涉到了大小关系，**元素大小的评判可以通过元素本身的自然顺序（*natural ordering*），也可以通过构造时传入的比较器**（*Comparator*，类似于C\++的仿函数）。
@@ -152,4 +154,17 @@ public boolean remove(Object o) {
     }
     return true;
 }
+```
+
+### DelayQueue
+
+
+
+![DelayQueue_UML.png](../PNGFigures/DelayQueue_UML.png)
+
+DelayQueue 内部封装了一个PriorityQueue用于作Priority控制, 且实现了读写锁,所以是线程安全的,所有的DelayQueue的element都要实现Delayed接口用于作Priority的比较
+
+```java
+public class DelayQueue<E extends Delayed> extends AbstractQueue<E>
+    implements BlockingQueue<E> {
 ```

@@ -1,5 +1,9 @@
 # LinkedHashSet and LinkedHashMap
 
+![LinkedHashMap_base.png](../PNGFigures/LinkedHashMap_UML.png)![LinkedHashMap_base.png](../PNGFigures/LinkedHashSet_UML.png)
+
+
+
 # 总体介绍
 
 如果你已看过前面关于*HashSet*和*HashMap*，以及*TreeSet*和*TreeMap*的讲解，一定能够想到本文将要讲解的*LinkedHashSet*和*LinkedHashMap*其实也是一回事。*LinkedHashSet*和*LinkedHashMap*在Java里也有着相同的实现，前者仅仅是对后者做了一层包装，也就是说***LinkedHashSet*里面有一个*LinkedHashMap*（适配器模式）**。因此本文将重点分析*LinkedHashMap*。
