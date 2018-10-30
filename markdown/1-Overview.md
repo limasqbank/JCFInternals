@@ -15,6 +15,7 @@ Java容器里只能放对象，对于基本类型（int, long, float, double等�
 
 Java容器能够容纳任何类型的对象，这一点表面上是通过泛型机制完成，Java泛型不是什么神奇的东西，只是编译器为我们提供的一个“语法糖”，泛型本身并不需要Java虚拟机的支持，只需要在编译阶段做一下简单的字符串替换即可。实质上Java的单继承机制才是保证这一特性的根本，因为所有的对象都是Object的子类，容器里只要能够存放Object对象就行了。
 事实上，所有容器的内部存放的都是Object对象，泛型机制只是简化了编程，由编译器自动帮我们完成了强制类型转换而已。JDK 1.4以及之前版本不支持泛型，类型转换需要程序员显式完成。
+
 ```java
 //JDK 1.4 or before
 ArrayList list = new ArrayList();
@@ -54,6 +55,43 @@ for(int i = 0; i < list.size(); i++){
 
 上述接口的通用实现见下表：
 <table align="center"><tr><td colspan="2" rowspan="2" align="center" border="0"></td><th colspan="5" align="center">Implementations</th></tr><tr><th>Hash Table</th><th>Resizable Array</th><th>Balanced Tree</th><th>Linked List</th><th>Hash Table + Linked List</th></tr><tr><th rowspan="4">Interfaces</th><th>Set</th><td><tt>HashSet</tt></td><td></td><td><tt>TreeSet</tt></td><td></td><td><tt>LinkedHashSet</tt></td></tr><tr><th>List</th><td></td><td><tt>ArrayList</tt></td><td></td><td><tt>LinkedList</tt></td><td></td></tr><tr><th>Deque</th><td></td><td><tt>ArrayDeque</tt></td><td></td><td><tt>LinkedList</tt></td><td></td></tr><tr><th>Map</th><td><tt>HashMap</tt></td><td></td><td><tt>TreeMap</tt></td><td></td><td><tt>LinkedHashMap</tt></td></tr></table>
+
+
+
+### 框架总览
+
+![pic](../PNGFigures/total_implement_UML.jpg)
+
+#### 大致说明
+
+看上面的框架图，先抓住它的主干，即`Collection`和`Map`。
+
+1. Collection是一个接口，是高度抽象出来的集合，它包含了集合的基本操作和属性。
+
+    Collection包含了List和Set两大分支。
+
+   1. List是一个有序的队列，每一个元素都有它的索引。第一个元素的索引值是0。
+      ​          List的实现类有LinkedList, ArrayList, Vector, Stack。
+
+   2. Set是一个不允许有重复元素的集合。
+
+      Set的实现类有HastSet和TreeSet。
+
+      1. HashSet依赖于HashMap，它实际上是通过HashMap实现的  
+
+      2. TreeSet依赖于TreeMap，它实际上是通过TreeMap实现的,类似于适配器模式。
+
+2.  Map是一个映射接口，即key-value键值对。Map中的每一个元素包含“一个key”和“key对应的value”。
+
+   AbstractMap是个抽象类，它实现了Map接口中的大部分API。而HashMap，TreeMap，WeakHashMap都是继承于AbstractMap。
+    Hashtable虽然继承于Dictionary，但它实现了Map接口。
+
+3. Iterator。它是遍历集合的工具，即我们通常通过Iterator迭代器来遍历集合。我们说Collection依赖于Iterator，是因为Collection的实现类都要实现iterator()函数，返回一个Iterator对象。
+   ListIterator是专门为遍历List而存在的。
+
+4. 再看Enumeration，它是JDK 1.0引入的抽象类。作用和Iterator一样，也是遍历集合；但是Enumeration的功能要比Iterator少。在上面的框图中，Enumeration只能在Hashtable, Vector, Stack中使用。
+
+5. Arrays和Collections。它们是操作数组、集合的两个工具类。
 
 接下来的篇幅，会逐个介绍上表中容器的数据结构以及用到的算法。
 
